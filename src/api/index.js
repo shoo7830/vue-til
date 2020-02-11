@@ -1,11 +1,15 @@
 import axios from 'axios';
+import { setIntercepors } from './common/interceptors';
 
-const instance = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
-  headers: {
-    Authorization: 'test1234',
-  },
-});
+function createInstance() {
+  const instance = axios.create({
+    baseURL: process.env.VUE_APP_API_URL,
+  });
+
+  return setIntercepors(instance);
+}
+
+const instance = createInstance();
 
 function registerUser(userData) {
   return instance.post('signup', userData);
