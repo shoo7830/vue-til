@@ -2,29 +2,39 @@
   <div>
     <div class="main list-container contents">
       <h1 class="page-header">Today I Learned</h1>
-      <ul>
-        <li v-for="postItem in postItems" :key="postItem._id">
-          {{ postItem.title }}
-        </li>
+      <div v-if="isLoading">
+        Loading...
+      </div>
+      <ul v-else>
+        <PostListItem
+          v-for="postItem in postItems"
+          :key="postItem._id"
+          :postItem="postItem"
+        />
       </ul>
     </div>
   </div>
 </template>
-
 <script>
+import PostListItem from '@/components/posts/PostListItem.vue';
 import { fetchPosts } from '@/api/index';
 
 export default {
+  components: {
+    PostListItem,
+  },
   data() {
     return {
       postItems: [],
+      isLoading: false,
     };
   },
   methods: {
     async fetchData() {
+      this.isLoading = true;
       const { data } = await fetchPosts();
+      this.isLoading = false;
       this.postItems = data.posts;
-      console.log(data.posts);
     },
   },
   created() {
