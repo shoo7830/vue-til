@@ -8,7 +8,7 @@ function createInstance() {
 }
 
 // 액시오스 초기화 함수
-function createInstanceWithAuth() {
+function createInstanceWithAuth(url) {
   const instance = axios.create({
     baseURL: `${process.env.VUE_APP_API_URL}${url}`,
   });
@@ -16,4 +16,4 @@ function createInstanceWithAuth() {
 }
 
 export const instance = createInstance();
-const posts = createInstanceWithAuth('posts');
+export const posts = createInstanceWithAuth('posts');
